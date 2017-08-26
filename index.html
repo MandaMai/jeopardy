@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>jeo</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <link type="text/css" rel="stylesheet" href="assets/stylesheets/styles.css"/>
+  </head>
+  <body>
+<!-- Introduction -->
+
+<!-- Scoreboard -->
+<div class="container-fluid">
+  <div class="row">
+    <div id="scoreboard">  
+      <div id="standings">
+        <h1>Your Score</h1>
+        <h2 id="score">$1000</h2>
+        <!-- <div><button id="newCat-button" class="btn">New Categories</button> 
+          <button id="reset-button" class="btn">Reset Game</button>
+        </div>   -->
+      </div>
+      <div id="info">
+        <h3>Current Question</h3>
+        <div class="labelWrapper"><h4>Category:</h4><h4 id="currentCategory"></h4><br /></div>
+        <div class="labelWrapper"><h4>Value: $</h4><h4 id="currentValue"></h4></div>
+        <div><textarea id="question" style="width:300px;height:80px;"></textarea></div>
+        <h3>Input your answer below</h3>
+        <div><textarea id="input" style="width:300px;height:40px;"></textarea></div>
+        <div><button id="submit-button" class="btn">Submit Question</button> 
+          <button id="skip-button" class="btn">Skip Question</button></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- All Questions Available -->
+    
+    <div class="container-fluid question-layer">
+    <div class="row gameBoard">
+    <div class="col-md-1"></div>
+    <div class="col-md-2 col-sm-4 col-xs-5">
+      <section>
+        <div id="category1">
+          <h2 class="heading tile category" id="cat1"></h2>
+          <div class="questions">
+              <div class="question " id="c1q1">100</div>
+              <div class="question " id="c1q2">200</div>
+              <div class="question " id="c1q3">300</div>
+              <div class="question " id="c1q4">400</div>
+              <div class="question " id="c1q5">500</div>
+          </div>
+        </div>
+      </section>
+    </div>
+    <div class="col-md-2 col-sm-4 col-xs-5">
+      <section>
+        <div id="category2">
+          <h2 class="heading tile category" id="cat2"></h2>
+          <div class="questions">
+              <div class="question " id="c2q1">100</div>
+              <div class="question " id="c2q2">200</div>
+              <div class="question " id="c2q3">300</div>
+              <div class="question " id="c2q4">400</div>
+              <div class="question " id="c2q5">500</div>
+          </div>
+        </div>
+      </section>
+    </div>
+    <div class="col-md-2 col-sm-4 col-xs-5">
+      <section>
+        <div id="category3">
+          <h2 class="heading tile category" id="cat3"></h2>
+          <div class="questions">
+              <div class="question " id="c3q1">100</div>
+              <div class="question " id="c3q2">200</div>
+              <div class="question " id="c3q3">300</div>
+              <div class="question " id="c3q4">400</div>
+              <div class="question " id="c3q5">500</div>
+          </div>
+        </div>
+      </section>
+    </div>
+    <div class="col-md-2 col-sm-4 col-xs-5">
+      <section>
+        <div id="category4">
+          <h2 class="heading tile category" id="cat4"></h2>
+          <div class="questions">
+              <div class="question " id="c4q1">100</div>
+              <div class="question " id="c4q2">200</div>
+              <div class="question " id="c4q3">300</div>
+              <div class="question " id="c4q4">400</div>
+              <div class="question " id="c4q5">500</div>
+          </div>
+        </div>
+      </section>
+    </div>
+    <div class="col-md-2 col-sm-4 col-xs-5">
+      <section>
+        <div id="category5">
+          <h2 class="heading tile category" id="cat5"></h2>
+          <div class="questions">
+              <div class="question " id="c5q1">100</div>
+              <div class="question " id="c5q2">200</div>
+              <div class="question " id="c5q3">300</div>
+              <div class="question " id="c5q4">400</div>
+              <div class="question " id="c5q5">500</div>
+          </div>
+        </div>
+      </section>
+    </div>
+    </div>
+  </div>
+  
+
+  
+
+    
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="assets/javascripts/scripts.js"></script>
+  </body>
+</html>
