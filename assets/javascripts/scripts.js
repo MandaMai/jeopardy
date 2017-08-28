@@ -1,6 +1,5 @@
 (function(){
-  // let tempQ="";
-  // let tempA="";
+//variables for page to work
   let submitButton = $("#submit-button");
   let skipButton = $("#skip-button");
   let questionButton = $(".question");
@@ -8,8 +7,6 @@
   let rnd2Button = $("#rnd2-button");
   let rnd3Button = $("#rnd3-button");
   let inputWindow = $("#info");
-  // let categoryButton = $(".category");//change category when clicked? out of scope for this project
-  let categoryNum = 0;
   let questionNum = 0;
   let score = 0;
   let tempQuestion = "";
@@ -18,15 +15,16 @@
   let createId = "";
   let category1, category2, category3, category4, category5, category6, category7, category8, category9, category10, category11, category12, category13, category14, category15;
 
+//Subjects hold information about category in order to do http calls and updates
   function Subject(name, index, num) {
     this.name=name;
     this.num=num;
     this.index=index;
     this.apiUrl="http://jservice.io/api/clues?count=5&category=" + index;
   }
-
-  category1 = new Subject("Herbs & Spice Girls", 3764,1);
-      $("#cat1").html(category1.name);
+  //these are the initial categories for the game
+  category1 = new Subject("Herbs & Spice Girls", 3764,1);//creates new Subject object
+      $("#cat1").html(category1.name);//set category name on board
   category2 = new Subject("British Fictional Characters", 3723, 2);
       $("#cat2").html(category2.name);
   category3 = new Subject("Let Your Geek Flag Fly", 10270, 3);
@@ -36,10 +34,10 @@
   category5 = new Subject("'90s Movie Lines", 7363, 5);
       $("#cat5").html(category5.name);
   categories = [category1, category2, category3, category4, category5];
-  rnd1Button.attr("disabled", "disabled");
-  rnd3Button.attr("disabled", "disabled");
+  rnd1Button.attr("disabled", "disabled");//disable button for future use
+  rnd3Button.attr("disabled", "disabled");//disable button until rnd 2 is selected
 
-//extra categories
+//extra categories for second and third rounds
 category6 = new Subject("On My Dog's Ipod", 13717, 6);
 category7 = new Subject("Tv's Comic Book Heroes", 4902, 7);
 category8 = new Subject("Movie Heroes", 1882, 8);
@@ -51,7 +49,7 @@ category13 = new Subject("Films Of The '90s", 1012, 13);
 category14 = new Subject("British Bands", 11891, 14);
 category15 = new Subject("British Fictional Characters", 3723, 15);
 
-
+  //return subject based off of question category selected
   function getSubject(tempNum) {
     for(let i = 0; i < categories.length; i++){
       if(categories[i].num==tempNum){
@@ -60,23 +58,6 @@ category15 = new Subject("British Fictional Characters", 3723, 15);
     }
   }
 
-  function setItems() {
-    $(createId).addClass('populated');
-  }
-
-  function resetItems() {
-
-  }
-
-  function cleanAnswer() {
-    tempAnswer=tempAnswer.replace(/<(?:.|\n\i)*?>/gm, '');
-    tempAnswer = tempAnswer.replace(/\\/g, "");
-    tempAnswer = tempAnswer.replace('"', "");
-    tempAnswer = tempAnswer.replace('"', "");
-    tempAnswer = tempAnswer.replace('(', "");
-    tempAnswer = tempAnswer.replace(')', "");
-    tempAnswer = tempAnswer.toLowerCase();
-  }
 
   $(function(){
 
@@ -84,55 +65,46 @@ category15 = new Subject("British Fictional Characters", 3723, 15);
     //hit the api endpoint and put the question in the div with the id of question and answer
     questionButton.click(function(){
       let temp=this.id.slice();
-      console.log(temp);
-      console.log(temp.length);
-      if(temp.length==5){
+      //get category and question indexes based on question selected
+      if(temp.length==5){//for items in category 10+
           createId=this.id.slice();
           categoryNum=$currentCheck=this.id.slice(1,3);
           questionNum=$currentCheck=this.id.slice(-1);
-      }else{
+      }else{//foritems in cateogories 1-9
         createId = "#" + this.id.slice();
         categoryNum=$currentCheck=this.id.slice(1,2);
         questionNum=$currentCheck=this.id.slice(-1);
       }
-      console.log(categoryNum);
-      console.log(questionNum);
-      console.log(createId);
 
       let tempSubject = getSubject(categoryNum);
-      console.log(tempSubject.name);
+      //console.log(tempSubject.name);
       //call request for question and set variables
-      $.get(tempSubject.apiUrl, function(data){
+      $.get(tempSubject.apiUrl, function(data){//get question info from api
         tempQuestion = data[questionNum-1].question;
         $(createId).html(tempQuestion);
-        $("#question").val(tempQuestion);
-        $("#currentCategory").html(tempSubject.name);
-        // console.log(tempQuestion);
+        $("#question").val(tempQuestion);//question from api updated to page
+        $("#currentCategory").html(tempSubject.name);//category based on question selected
         tempAnswer = (data[questionNum-1].answer);
         cleanAnswer();
-        console.log(tempAnswer);
-        tempValue = questionNum*100;
-        $("#currentValue").html(tempValue);
+        tempValue = questionNum*100;//update value to jeopardy values (to be in hundreds)
+        $("#currentValue").html(tempValue);//update value on page
         // console.log(tempValue);
       })
-      setItems();
+      setItems();//update formatting of question selected
     })
 
     submitButton.click(function(){
       //get input from user
       let userInput = $("#input").val();
       userInput = userInput.toLowerCase();
-      console.log(userInput);
-      console.log(tempAnswer);
       if(userInput == tempAnswer) {
-        score = score + tempValue;
-        $("#score").html(score);
-        $("#question").val(($("#question").val()+ "    Your Answer: " + $("#input").val() + " was correct."));
+        score = score + tempValue;//if answer is correct
+        $("#score").html(score);//update score on page
+        $("#question").val(($("#question").val()+ "    Your Answer: " + $("#input").val() + " was correct."));//update question with result appended
         console.log("Answer was Correct!");
-        $("#input").val("");
+        $("#input").val("");//make textbox blank for next question
         } else {
-          console.log("Answer doesn't match");
-          $("#question").val(($("#question").val()+ "    Your Answer: " + $("#input").val() + " was incorrect."));
+          $("#question").val(($("#question").val()+ "    Your Answer: " + $("#input").val() + " was incorrect. The correct answer was: " + tempAnswer));//update question with result appended
           console.log("Answer was Incorrect");
           $("#input").val("");
         }
@@ -140,36 +112,34 @@ category15 = new Subject("British Fictional Characters", 3723, 15);
 
     skipButton.click(function(){
       //reset window
-      $("#question").val("Question Skipped");
-      $("#input").val("");
+      $("#question").val("Question Skipped");//update question value to show question was skipped
+      $("#input").val("");//make textbox blank for next question
     })
 
-    function updateQuestions (old, temp) {
+    function updateQuestions (old, temp) {//update questions being used on page
       let oldId="";
       let newId="";
       let tempVal = 0;
       for(let i = 1; i < 6; i++){
-        oldId="#c" + old + "q";
-        newId="c" + temp + "q";
-        oldId=oldId+i;
-        newId=newId+i;
-        console.log($(oldId).attr("id", newId));
-        $(oldId).attr("id", newId);
-        console.log("Old id: " + oldId + " New id: " + newId);
-        newId = "#" + newId;
-        tempVal = i*100;
-        $(newId).html(tempVal);
-        $(".question").removeClass('populated');
+        oldId="#c" + old + "q";//recreate old id base
+        newId="c" + temp + "q";//create new id base
+        oldId=oldId+i;//add question number to end of id base
+        newId=newId+i;//add question number to end of id base
+        $(oldId).attr("id", newId);//change old id to new id
+        newId = "#" + newId;//add notation to beginning id base
+        tempVal = i*100;//update values on page for questions being loaded
+        $(newId).html(tempVal);//update values on page
+        $(".question").removeClass('populated');//update formatting back to initial state
       }
     }
 
     rnd2Button.click(function(){
       //reset window
-      rnd2Button.attr("disabled", "disabled");
-      rnd3Button.removeAttr("disabled");
-      $("#cat1").attr("id", "cat6");
-        $("#cat6").html(category6.name);
-        updateQuestions(1,6);
+      rnd2Button.attr("disabled", "disabled");//disable button once clicked
+      rnd3Button.removeAttr("disabled");//enable round three button
+      $("#cat1").attr("id", "cat6");//update id on container for questions and category
+        $("#cat6").html(category6.name);//update category name
+        updateQuestions(1,6);//update questions
       $("#cat2").attr("id", "cat7");
         $("#cat7").html(category7.name);
         updateQuestions(2,7);
@@ -187,7 +157,7 @@ category15 = new Subject("British Fictional Characters", 3723, 15);
 
     rnd3Button.click(function(){
       //reset window
-      rnd3Button.attr("disabled", "disabled");
+      rnd3Button.attr("disabled", "disabled");//disable button once clicked
       $("#cat6").attr("id", "cat11");
         $("#cat11").html(category11.name);
         updateQuestions(6,11);
@@ -205,10 +175,26 @@ category15 = new Subject("British Fictional Characters", 3723, 15);
         updateQuestions(10,15);
       categories = [category11, category12, category13, category14, category15];
     })
-
+    //clears textbox for entry
     inputWindow.click(function(){
-      $("#info").val(" ");
+      $("#info").val("");
     })
+
+    //make question appear and change color so user can tell question was selected
+    function setItems() {
+      $(createId).addClass('populated');
+    }
+
+    //text validation for question and answer from api
+    function cleanAnswer() {
+      tempAnswer=tempAnswer.replace(/<(?:.|\n\i)*?>/gm, '');
+      tempAnswer = tempAnswer.replace(/\\/g, "");
+      tempAnswer = tempAnswer.replace('"', "");
+      tempAnswer = tempAnswer.replace('"', "");
+      tempAnswer = tempAnswer.replace('(', "");
+      tempAnswer = tempAnswer.replace(')', "");
+      tempAnswer = tempAnswer.toLowerCase();
+    }
   })//end of functions that run after page loads
 
 })()
